@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/domjrobinson/tours/issues"
   },
-  "homepage": "https://github.com/domjrobinson/tours#readme"
+  "homepage": "https://github.com/domjrobinson/tours#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
