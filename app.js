@@ -1,15 +1,17 @@
+const fs = require('fs');
 const express = require('express');
 
 const app = express();
 
 const PORT = 3000;
 
+const tours = JSON.parse(
+  fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
+);
+
 //Routes
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Hello from the server', app: 'natours' });
-});
-app.get('/', (req, res) => {
-  res.send('you can post to this endpoint');
+app.get('/api/v1/tours', (req, res) => {
+  res.status(200).json({ status: 'success', data: { tours } });
 });
 
 app.listen(PORT, () => {
