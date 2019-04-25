@@ -45,6 +45,16 @@ app.get('/api/v1/tours/:id', (req, res) => {
   res.status(200).json({ status: 'success', data: { tour } });
 });
 
+app.patch('/api/v1/tours/:id', (req, res) => {
+  if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({ status: 'fail', message: 'Invalid id' });
+  }
+
+  res
+    .status(200)
+    .json({ status: 'success', data: { tour: 'Updated tour here' } });
+});
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
