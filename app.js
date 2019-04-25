@@ -11,7 +11,9 @@ const tours = JSON.parse(
 
 //Routes
 app.get('/api/v1/tours', (req, res) => {
-  res.status(200).json({ status: 'success', data: { tours } });
+  res
+    .status(200)
+    .json({ status: 'success', results: tours.length, data: { tours } });
 });
 
 app.listen(PORT, () => {
