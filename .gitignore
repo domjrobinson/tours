@@ -91,3 +91,6 @@ ec2-nodejs-lyrebyrd.pem
 
 # config.js
 config.js
+
+# JSON Data file
+dev.data/data/tours-simple.json
