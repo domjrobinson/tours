@@ -105,13 +105,15 @@ const deleteUser = (req, res) => {
     .status(500)
     .json({ status: 'error', message: 'This route is not yet defind' });
 };
-app
-  .route('/api/v1/tours')
+app.use('/api/v1/tours', tourRouter);
+const tourRouter = express.Router();
+tourRouter
+  .route('/')
   .get(getAllTours)
   .post(createTour);
 
-app
-  .route('/api/v1/tours/:id')
+tourRouter
+  .route('/:id')
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
