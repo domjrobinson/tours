@@ -3,6 +3,8 @@ const express = require('express');
 const morgan = require('morgan');
 
 const app = express();
+
+// 1) MIDDLEWARE
 app.use(morgan('dev'));
 
 app.use(express.json());
@@ -22,7 +24,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-//Routes
+// 2) Routes
 
 const getAllTours = (req, res) => {
   console.log(req.requestTime);
@@ -88,6 +90,8 @@ app
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+// 3) START SERVER
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
