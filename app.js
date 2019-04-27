@@ -80,6 +80,31 @@ const deleteTour = (req, res) => {
   res.status(204).json({ status: 'success', data: null });
 };
 
+const getAllUsers = (req, res) => {
+  res
+    .status(500)
+    .json({ status: 'error', message: 'This route is not yet defind' });
+};
+const getUser = (req, res) => {
+  res
+    .status(500)
+    .json({ status: 'error', message: 'This route is not yet defind' });
+};
+const createUser = (req, res) => {
+  res
+    .status(500)
+    .json({ status: 'error', message: 'This route is not yet defind' });
+};
+const updateUser = (req, res) => {
+  res
+    .status(500)
+    .json({ status: 'error', message: 'This route is not yet defind' });
+};
+const deleteUser = (req, res) => {
+  res
+    .status(500)
+    .json({ status: 'error', message: 'This route is not yet defind' });
+};
 app
   .route('/api/v1/tours')
   .get(getAllTours)
@@ -91,6 +116,16 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+app
+  .route('/api/v1/users')
+  .get(getAllUsers)
+  .post(createUser);
+
+app
+  .route('/api/vi/users/:id')
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 // 3) START SERVER
 
 app.listen(PORT, () => {
