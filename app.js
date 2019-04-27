@@ -105,8 +105,9 @@ const deleteUser = (req, res) => {
     .status(500)
     .json({ status: 'error', message: 'This route is not yet defind' });
 };
-app.use('/api/v1/tours', tourRouter);
+
 const tourRouter = express.Router();
+const userRouter = express.Router();
 tourRouter
   .route('/')
   .get(getAllTours)
@@ -118,16 +119,19 @@ tourRouter
   .patch(updateTour)
   .delete(deleteTour);
 
-app
-  .route('/api/v1/users')
+userRouter
+  .route('/')
   .get(getAllUsers)
   .post(createUser);
 
-app
-  .route('/api/vi/users/:id')
+userRouter
+  .route('/:id')
   .get(getUser)
   .patch(updateUser)
   .delete(deleteUser);
+
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 // 3) START SERVER
 
 app.listen(PORT, () => {
