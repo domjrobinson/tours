@@ -36,7 +36,7 @@ exports.createTour = async (req, res) => {
       data: { tour: newTour }
     });
   } catch (err) {
-    res.status(400).json({ status: 'fail', message: 'Invalid data set' });
+    res.status(400).json({ status: 'fail', message: err });
   }
 };
 
