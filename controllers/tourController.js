@@ -21,12 +21,6 @@ exports.getAllTours = async (req, res) => {
 
     const tours = await features.query;
 
-    // const query = await Tours.find()
-    //   .where('duration')
-    //   .equals(5)
-    //   .where('difficulty')
-    //   .equals('easy');
-    // Send Response
     res.status(200).json({
       status: 'success',
       results: tours.length,
@@ -85,6 +79,40 @@ exports.deleteTour = async (req, res) => {
     await Tour.findByIdAndDelete(id);
 
     res.status(204).json({ status: 'success', data: null });
+  } catch (err) {
+    res.status(400).json({ status: 'fail', message: 'Invalid data set' });
+  }
+};
+
+exports.getTourStats = async (req, res) => {
+  try {
+    const stats = await Tour.aggregate([
+      {
+        $match: { ratingsAvg: { $gte: 4.5 } }
+      },
+      {
+        $group: {
+          _id: { $toUpper: '$difficulty' },
+          num: { $sum: 1 },
+          numRatings: { $sum: '$ratingsQuantity' },
+          avgRating: { $avg: '$ratingsAvg' },
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' }
+        }
+      },
+      {
+        $sort: { avgPrice: 1 }
+      }
+      // {
+      //   $match: { _id: { $ne: 'EASY' } }
+      // }
+    ]);
+
+    res.status(201).json({
+      status: 'success',
+      data: { stats }
+    });
   } catch (err) {
     res.status(400).json({ status: 'fail', message: 'Invalid data set' });
   }
