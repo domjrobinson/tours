@@ -32,7 +32,7 @@ exports.getAllTours = catchAsync(async (req, res) => {
   }
 });
 
-exports.getTour = async (req, res) => {
+exports.getTour = catchAsync(async (req, res) => {
   try {
     const { id } = req.params;
     const tour = await Tour.findById(id);
@@ -43,7 +43,7 @@ exports.getTour = async (req, res) => {
   } catch (err) {
     res.status(400).json({ status: 'fail', message: err });
   }
-};
+});
 
 exports.createTour = catchAsync(async (req, res) => {
   // console.log('req.body', req.body);
