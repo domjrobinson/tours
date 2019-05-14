@@ -59,18 +59,14 @@ exports.createTour = catchAsync(async (req, res) => {
 });
 
 exports.updateTour = catchAsync(async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { body } = req;
+  const { id } = req.params;
+  const { body } = req;
 
-    const tour = await Tour.findByIdAndUpdate(id, body, {
-      new: true,
-      runValidators: true
-    });
-    res.status(200).json({ status: 'success', data: { tour: { tour } } });
-  } catch (err) {
-    res.status(400).json({ status: 'fail', message: 'Invalid data set' });
-  }
+  const tour = await Tour.findByIdAndUpdate(id, body, {
+    new: true,
+    runValidators: true
+  });
+  res.status(200).json({ status: 'success', data: { tour: { tour } } });
 });
 
 exports.deleteTour = catchAsync(async (req, res) => {
