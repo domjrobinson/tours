@@ -84,39 +84,35 @@ exports.deleteTour = catchAsync(async (req, res) => {
   }
 });
 
-exports.getTourStats = async (req, res) => {
-  try {
-    const stats = await Tour.aggregate([
-      {
-        $match: { ratingsAvg: { $gte: 4.5 } }
-      },
-      {
-        $group: {
-          _id: { $toUpper: '$difficulty' },
-          num: { $sum: 1 },
-          numRatings: { $sum: '$ratingsQuantity' },
-          avgRating: { $avg: '$ratingsAvg' },
-          avgPrice: { $avg: '$price' },
-          minPrice: { $min: '$price' },
-          maxPrice: { $max: '$price' }
-        }
-      },
-      {
-        $sort: { avgPrice: 1 }
+exports.getTourStats = catchAsync(async (req, res) => {
+  const stats = await Tour.aggregate([
+    {
+      $match: { ratingsAvg: { $gte: 4.5 } }
+    },
+    {
+      $group: {
+        _id: { $toUpper: '$difficulty' },
+        num: { $sum: 1 },
+        numRatings: { $sum: '$ratingsQuantity' },
+        avgRating: { $avg: '$ratingsAvg' },
+        avgPrice: { $avg: '$price' },
+        minPrice: { $min: '$price' },
+        maxPrice: { $max: '$price' }
       }
-      // {
-      //   $match: { _id: { $ne: 'EASY' } }
-      // }
-    ]);
+    },
+    {
+      $sort: { avgPrice: 1 }
+    }
+    // {
+    //   $match: { _id: { $ne: 'EASY' } }
+    // }
+  ]);
 
-    res.status(201).json({
-      status: 'success',
-      data: { stats }
-    });
-  } catch (err) {
-    res.status(400).json({ status: 'fail', message: 'Invalid data set' });
-  }
-};
+  res.status(201).json({
+    status: 'success',
+    data: { stats }
+  });
+});
 
 exports.getMonthlyPlan = async (req, res) => {
   try {
