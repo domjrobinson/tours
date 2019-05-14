@@ -74,14 +74,10 @@ exports.updateTour = catchAsync(async (req, res) => {
 });
 
 exports.deleteTour = catchAsync(async (req, res) => {
-  try {
-    const { id } = req.params;
-    await Tour.findByIdAndDelete(id);
+  const { id } = req.params;
+  await Tour.findByIdAndDelete(id);
 
-    res.status(204).json({ status: 'success', data: null });
-  } catch (err) {
-    res.status(400).json({ status: 'fail', message: 'Invalid data set' });
-  }
+  res.status(204).json({ status: 'success', data: null });
 });
 
 exports.getTourStats = catchAsync(async (req, res) => {
