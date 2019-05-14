@@ -9,7 +9,7 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 };
 
-exports.getAllTours = async (req, res) => {
+exports.getAllTours = catchAsync(async (req, res) => {
   try {
     console.log(req.query);
 
@@ -30,7 +30,7 @@ exports.getAllTours = async (req, res) => {
   } catch (err) {
     res.status(400).json({ status: 'fail', message: err });
   }
-};
+});
 
 exports.getTour = async (req, res) => {
   try {
