@@ -9,9 +9,7 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 };
 
-exports.getAllTours = catchAsync(async (req, res) => {
-  console.log(req.query);
-
+exports.getAllTours = catchAsync(async (req, res, next) => {
   // Execute Query
   const features = new APIFeatures(Tour.find(), req.query)
     .filter()
@@ -28,7 +26,7 @@ exports.getAllTours = catchAsync(async (req, res) => {
   });
 });
 
-exports.getTour = catchAsync(async (req, res) => {
+exports.getTour = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const tour = await Tour.findById(id);
   res.status(201).json({
@@ -37,7 +35,7 @@ exports.getTour = catchAsync(async (req, res) => {
   });
 });
 
-exports.createTour = catchAsync(async (req, res) => {
+exports.createTour = catchAsync(async (req, res, next) => {
   // console.log('req.body', req.body);
 
   const newTour = await Tour.create(req.body);
@@ -50,7 +48,7 @@ exports.createTour = catchAsync(async (req, res) => {
   res.status(400).json({ status: 'fail', message: err });
 });
 
-exports.updateTour = catchAsync(async (req, res) => {
+exports.updateTour = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const { body } = req;
 
@@ -61,14 +59,14 @@ exports.updateTour = catchAsync(async (req, res) => {
   res.status(200).json({ status: 'success', data: { tour: { tour } } });
 });
 
-exports.deleteTour = catchAsync(async (req, res) => {
+exports.deleteTour = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   await Tour.findByIdAndDelete(id);
 
   res.status(204).json({ status: 'success', data: null });
 });
 
-exports.getTourStats = catchAsync(async (req, res) => {
+exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
       $match: { ratingsAvg: { $gte: 4.5 } }
@@ -98,7 +96,7 @@ exports.getTourStats = catchAsync(async (req, res) => {
   });
 });
 
-exports.getMonthlyPlan = catchAsync(async (req, res) => {
+exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
   const year = req.params.year * 1;
   const plan = await Tour.aggregate([
     {
