@@ -1,3 +1,6 @@
+const AppError = require('./../utils/AppError');
+
+const handleCastErrorDB = () => {};
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -6,6 +9,7 @@ const sendErrorDev = (err, res) => {
     stack: err.stack
   });
 };
+
 const sendErrorProd = (err, res) => {
   if (err.isOperational) {
     res.status(err.statusCode).json({
@@ -25,6 +29,10 @@ module.exports = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
-    sendErrorProd(err, res);
+    const error = { ...err };
+    sendErrorProd(error, res);
+    if (error.name === 'CastError') {
+      handleCastErrorDB(error);
+    }
   }
 };
