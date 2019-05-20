@@ -43,7 +43,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
 exports.createTour = catchAsync(async (req, res, next) => {
   // console.log('req.body', req.body);
 
-  const newTour = await Tour.create(req.body);
+  const newTour = await Tour.create(req.body, { runValidators: true });
 
   res.status(201).json({
     status: 'success',
