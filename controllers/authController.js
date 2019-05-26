@@ -45,3 +45,23 @@ exports.login = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ status: 'success', token });
 });
+
+exports.protect = catchAsync(async (req, res, next) => {
+  // 1) Get Token, and chek if it Exist
+  let token;
+  if (
+    req.headers.autherorization &&
+    req.headers.autherorization.startsWith('Bearer')
+  ) {
+    token = req.headers.autherorization.split(' ')[0];
+  }
+
+  if (!token) {
+    return next(new AppError('You are not logged in', 401));
+  }
+  // 2) Verify Token
+  // 3) Check if user Exist
+  // 4) check if user changed password after token was issued
+
+  next();
+});
