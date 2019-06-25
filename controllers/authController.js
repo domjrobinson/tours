@@ -30,7 +30,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(req.body);
 
   // 1) if email && password Exist
   if (!email || !password) {
@@ -53,12 +52,11 @@ exports.protect = catchAsync(async (req, res, next) => {
   // 1) Get Token, and chek if it Exist
   let token;
   if (
-    req.headers.autherorization &&
-    req.headers.autherorization.startsWith('Bearer')
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
   ) {
-    token = req.headers.autherorization.split(' ')[0];
+    token = req.headers.authorization.split(' ')[1];
   }
-
   if (!token) {
     return next(new AppError('You are not logged in', 401));
   }
