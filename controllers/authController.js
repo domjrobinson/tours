@@ -10,7 +10,13 @@ const signToken = id =>
   });
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const { name, email, password, passwordConfirm } = req.body;
+  const {
+    name,
+    email,
+    password,
+    passwordConfirm,
+    passwordChangedAt
+  } = req.body;
 
   const newUser = await User.create({
     name,
@@ -44,7 +50,6 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // 3) send token
   const token = signToken(user._id);
-
   res.status(200).json({ status: 'success', token });
 });
 
@@ -62,8 +67,18 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
   // 2) Verify Token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  // 3) Check if user Exist
-  // 4) check if user changed password after token was issued
 
+  // 3) Check if user Exist
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
+    return next(new AppError('The token no longer exist', 401));
+  }
+  // 4) check if user changed password after token was issued
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError('User recently changed passwprd. Please login again', 401)
+    );
+  }
+  req.user = currentUser;
   next();
 });
