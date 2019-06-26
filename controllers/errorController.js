@@ -19,7 +19,7 @@ const handleValidationErrorDB = err => {
   return new AppError(message, 400);
 };
 
-const handleJWTError = err =>
+const handleJWTError = () =>
   new AppError('Invalid token. Please login again', 401);
 
 const sendErrorDev = (err, res) => {
