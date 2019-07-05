@@ -1,5 +1,16 @@
 const catchAsync = require('./../utils/catchAsync.js');
+const AppError = require('./../utils/AppError');
 const User = require('./../models/userModel');
+
+const filterObj = (obj, ...allowedFields) => {
+  const newObj = {};
+  Object.keys(obj).forEach(el => {
+    if (allowedFields.includes(el)) {
+      newObj[el] = obj[el];
+    }
+  });
+  return newObj;
+};
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
@@ -10,6 +21,28 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
     data: { users }
   });
 });
+
+exports.updateMe = catchAsync(async (req, res, next) => {
+  if (req.body.password || req.body.passwordConfirm) {
+    return next(
+      new AppError(
+        'This route for password updates, please use updateMyPassword',
+        400
+      )
+    );
+  }
+  const filteredBody = filterObj(req.body, 'name', 'email');
+  const updatedUser = User.findByIdAndUpdate(req.user.id, filteredBody, {
+    new: true,
+    runValidators: true
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: { user: updatedUser }
+  });
+});
+
 exports.getUser = (req, res) => {
   res
     .status(500)
