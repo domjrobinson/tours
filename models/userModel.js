@@ -87,6 +87,10 @@ userSchema.pre('save', function(next) {
   next();
 });
 
+userSchema.pre('/^find/', function(next) {
+  this.find({ active: true });
+  next();
+});
 userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
