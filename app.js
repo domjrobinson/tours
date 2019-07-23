@@ -2,6 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
@@ -28,6 +30,12 @@ app.use('/api', limiter);
 
 // * BODY PARSER
 app.use(express.json({ limit: '10kb' }));
+
+// * Data Sanatization NOSQL
+app.use(mongoSanitize());
+
+// * Data Sanatization XSS
+app.use(xss());
 
 // * SERVE STATIC FILES
 app.use(express.static(`${__dirname}/public`));
