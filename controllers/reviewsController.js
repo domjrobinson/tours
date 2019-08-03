@@ -2,6 +2,9 @@ const catchAsync = require('../utils/catchAsync');
 const Review = require('../models/reviewsModel');
 const factory = require('./handlerFactory');
 
+exports.updateReview = factory.updateOne(Review);
+exports.deleteReview = factory.deleteOne(Review);
+
 exports.getAllReviews = catchAsync(async (req, res, next) => {
   let filter = {};
   if (req.params.tourID) filter = { tour: req.params.tourId };
@@ -31,5 +34,3 @@ exports.createReview = catchAsync(async (req, res, next) => {
     }
   });
 });
-
-exports.deleteReview = factory.deleteOne(Review);
