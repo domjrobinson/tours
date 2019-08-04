@@ -40,11 +40,21 @@ exports.createTour = async (req, res) => {
   }
 };
 
-exports.updateTour = (req, res) => {
-  res
-    .status(200)
-    .json({ status: 'success', data: { tour: 'Updated tour here' } });
+exports.updateTour = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+
+    const tour = await Tour.findByIdAndUpdate(id, body, {
+      new: true,
+      runValidators: true
+    });
+    res.status(200).json({ status: 'success', data: { tour: { tour } } });
+  } catch (err) {
+    res.status(400).json({ status: 'fail', message: 'Invalid data set' });
+  }
 };
+
 exports.deleteTour = (req, res) => {
   res.status(204).json({ status: 'success', data: null });
 };
