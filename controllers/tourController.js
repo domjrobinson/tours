@@ -13,13 +13,17 @@ exports.getAllTours = async (req, res) => {
   }
 };
 
-exports.getTour = (req, res) => {
-  console.log(req.params);
-  // const id = req.params.id * 1;
-
-  // const tour = tours.find(el => el.id === id);
-
-  // res.status(200).json({ status: 'success', data: { tour } });
+exports.getTour = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const tour = await Tour.findById(id);
+    res.status(201).json({
+      status: 'success',
+      data: { tour }
+    });
+  } catch (err) {
+    res.status(400).json({ status: 'fail', message: err });
+  }
 };
 
 exports.createTour = async (req, res) => {
