@@ -45,16 +45,12 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMe = factory.deleteOne(User);
-
-exports.getUser = (req, res) => {
-  res
-    .status(500)
-    .json({ status: 'error', message: 'This route is not yet defind' });
-};
+exports.getUser = factory.getOne(User);
 exports.createUser = (req, res) => {
-  res
-    .status(500)
-    .json({ status: 'error', message: 'This route is not yet defind' });
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defind, please use sign up instead'
+  });
 };
 exports.updateUser = (req, res) => {
   res
