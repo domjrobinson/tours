@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -13,9 +14,13 @@ const reviewsRouter = require('./routes/reviewsRoutes');
 
 const app = express();
 
-app.set('view engine', 'pug');
-
 // 1) MIDDLEWARE
+app.set('view engine', 'pug');
+app.set('view', path.jpin(__dirname, 'views'));
+
+// * SERVE STATIC FILES
+app.use(express.static(path.join(__dirname), 'public'));
+
 //  * SET SECURITY HTTP HEADERS
 app.use(helmet());
 
@@ -54,9 +59,6 @@ app.use(
     ]
   })
 );
-
-// * SERVE STATIC FILES
-app.use(express.static(`${__dirname}/public`));
 
 app.use((req, res, next) => {
   console.log('Hello from the middleware    ');
