@@ -16,10 +16,10 @@ const app = express();
 
 // 1) MIDDLEWARE
 app.set('view engine', 'pug');
-app.set('view', path.jpin(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
 
 // * SERVE STATIC FILES
-app.use(express.static(path.join(__dirname), 'public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //  * SET SECURITY HTTP HEADERS
 app.use(helmet());
@@ -69,6 +69,10 @@ app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   console.log(req.headers);
   next();
+});
+
+app.get('/', (req, res) => {
+  res.status(200).render('base');
 });
 
 app.use('/api/v1/tours', tourRouter);
