@@ -13,6 +13,8 @@ const reviewsRouter = require('./routes/reviewsRoutes');
 
 const app = express();
 
+app.set('view engine', 'pug');
+
 // 1) MIDDLEWARE
 //  * SET SECURITY HTTP HEADERS
 app.use(helmet());
