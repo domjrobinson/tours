@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-html(lang="en")
+html(lang='en')
   head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    meta(http-equiv="X-UA-Compatible", content="ie=edge")
-    title Tours
+    meta(charset='UTF-8')
+    meta(name='UTFviewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title Natours | Exciting tours for adventurous people
+    link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
     link(rel='stylesheet' href='css/style.css')
     link(rel='shortcut icon' type='image/png' href='img/favicon.png')
   body
-    h1= tour
-    p  This is some text
+    // HEADER
+    include _header
+    //CONTENT
+    main.main
+      h1= tour
+
+    //FOOTER
+    include _footer
