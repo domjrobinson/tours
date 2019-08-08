@@ -67,12 +67,15 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.headers);
+  // console.log(req.headers);
   next();
 });
 
 app.get('/', (req, res) => {
-  res.status(200).render('base');
+  res.status(200).render('base', {
+    tour: 'The orrest Hiker',
+    user: 'Dom'
+  });
 });
 
 app.use('/api/v1/tours', tourRouter);
