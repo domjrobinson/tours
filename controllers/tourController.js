@@ -34,6 +34,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
   if (!tour) {
     return next(new AppError('No Tour found with that id, 404'));
   }
+
   res.status(201).json({
     status: 'success',
     data: { tour }
@@ -43,7 +44,9 @@ exports.getTour = catchAsync(async (req, res, next) => {
 exports.createTour = catchAsync(async (req, res, next) => {
   // console.log('req.body', req.body);
 
-  const newTour = await Tour.create(req.body, { runValidators: true });
+  const newTour = await Tour.create(req.body, {
+    //runValidators: true
+  });
 
   res.status(201).json({
     status: 'success',
